@@ -1,10 +1,11 @@
-if ARGV[0].nil? || File.exist?(ARGV[0]) == false
+if ARGV[0].nil?
   puts "A file is absent or incorrect entered. A file will be selected by default (movies.txt)"
-  ARGV[0] = "movies.txt"
+  file = "movies.txt"
 else
+  File.exist?(ARGV[0]) ? file = ARGV[0] : exit()
 end
 
-list = File.open(ARGV[0], 'r')
+list = File.open(file, 'r')
 
 movies = []
 
@@ -14,9 +15,7 @@ end
 
 movies.each do |movie|
   if movie[1].include?("Max")
-    rating = movie[7].split('.')
-    rating = "*" * (rating[0].to_i  * 10+ rating[1].to_i - 80)
+    rating = "*" * (movie[7].to_f * 10 - 80)
     puts "#{movie[1]} #{rating} "
-  else
   end
 end
