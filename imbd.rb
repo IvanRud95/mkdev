@@ -7,15 +7,37 @@ end
 
 list = File.open(file, 'r')
 
-movies = []
+@movies = []
 
 list.each_line do |line|
-  movies << line.split('|')
+  @movies << line.split('|')
 end
 
-movies.each do |movie|
-  if movie[1].include?("Max")
-    rating = "*" * (movie[7].to_f * 10 - 80)
-    puts "#{movie[1]} #{rating} "
+@movies.map! do |movie|
+  { link: movie[0], title: movie[1],  year: movie[2], country: movie[3], release: movie[4], genre: movie[5], time: movie[6], rating: movie[7], director: movie[8], actors: movie[9] }
+end
+
+def top_five_movies
+  @movies.sort_by { |time| time[:time].to_i }.reverse.first(5).each do |movie|
+    puts "#{movie[:title]} (#{movie[:release]}; #{movie[:genre]}) - #{movie[:time]}"
   end
 end
+
+def ten_comedies
+  @movies.select { |genre| genre[:genre].include?("Comedy") }.sort_by { |release| release[:release] }.first(10).each do |movie|
+    puts "#{movie[:title]} (#{movie[:release]}; #{movie[:genre]}) - #{movie[:time]}"
+  end
+end
+
+def list_directors
+  puts @movies.map { |directors| directors[:director] }.uniq.sort_by { |director| director.split(' ')[-1] }
+end
+
+def amount_movies_produced_outside_usa
+  puts @movies.map { |country| country[:country] }.delete_if { |country| country == "USA" }.count
+end
+
+top_five_movies
+ten_comedies
+list_directors
+amount_movies_produced_outside_usa
