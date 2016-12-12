@@ -34,7 +34,12 @@ def amount_movies_produced_outside_usa
 end
 
 def monthly_statistics
-  puts @movies.map(&:release).reject { |date| date.count('-').zero? }.map { |date| Date._strptime(date, '%Y-%m') }.sort_by { |date| date[:mon] }.group_by { |date| Date::MONTHNAMES[date[:mon]] }.map { |month, amount| "#{month} - #{amount.size}" }
+ puts @movies.map(&:release).
+ reject { |date| date.count('-').zero? }.
+ map { |date| Date.strptime(date, '%Y-%m') }.
+ sort_by { |date| date.mon }.
+ group_by { |date| Date::MONTHNAMES[date.mon] }.
+ map { |month, amount| "#{month} - #{amount.size}" }
 end
 
 top_five_movies
