@@ -42,8 +42,8 @@ def monthly_statistics
    map { |month, amount| "#{month} - #{amount.size}" }
 end
 
-# top_five_movies
-# ten_comedies
-# list_directors
-# amount_movies_produced_outside_usa
+top_five_movies
+ten_comedies
+list_directors
+amount_movies_produced_outside_usa
 monthly_statistics
