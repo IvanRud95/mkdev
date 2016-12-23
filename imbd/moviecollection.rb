@@ -3,7 +3,7 @@ class MovieCollection
 KEYS = %i[link title year country release genre time rating director actors]
 
   def initialize(file)
-    @movies = CSV.read(file, col_sep: '|').map { |movie| OpenStruct.new(KEYS.zip(movie).to_h) }
+      @movies = CSV.read(file, col_sep: '|', write_headers: :true, headers: KEYS).map{ |movie| Movie.new(movie) }
   end
 
   def all
@@ -11,7 +11,7 @@ KEYS = %i[link title year country release genre time rating director actors]
   end
 
   def sort_by(param)
-    @movies.sort_by(&param).first(3)
+    @movies.sort_by {|movie| movie.send(param) }.first(3)
   end
 
   def filter(params)
@@ -24,6 +24,14 @@ KEYS = %i[link title year country release genre time rating director actors]
 
   def stats(param)
     @movies.map { |movie| movie.send(param).split(",") }.flatten.sort.group_by(&:itself).map { |key, value| {key => value.size} }.reduce(:merge)
+  end
+
+  def has_genre?(genre)
+    @movies.map { |movie| movie.has_genre?(genre) }.include?(true) ? true : raise
+  end
+
+  def to_s
+    "#{@title} (#{@year}), #{@genre} - #{@director}; #{@actors}"
   end
 
 end

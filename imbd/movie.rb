@@ -1,20 +1,18 @@
-
 class Movie
 
-  def initialize
-    @movies = MovieCollection.new('movies.txt')
+ attr_reader :url, :title, :year, :country, :date, :genre, :length, :rating, :director, :actors
+
+  def initialize(row)
+    @url,@title,@year,@country,@date,@genre,@length,@rating,@director,@actors = row[0..9]
+    @length = @length.to_i
   end
 
-  def all
-    @movies.all
+  def has_genre?(genre)
+      @genre.include?(genre)
   end
 
-  def first
-    self.first
-  end
-
-  def actors
-    self.send(:actors)
+  def to_s
+      "#{@title} (#{@year}), #{@genre} - #{@director}; #{@actors}"
   end
 
 end
