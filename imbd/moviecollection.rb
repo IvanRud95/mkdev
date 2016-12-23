@@ -27,7 +27,8 @@ KEYS = %i[link title year country release genre time rating director actors]
   end
 
   def has_genre?(genre)
-    @movies.map { |movie| movie.has_genre?(genre) }.include?(true) ? true : raise
+    raise unless @movies.map { |movie| movie.has_genre?(genre) }.include?(true)
+    true
   end
 
   def to_s
