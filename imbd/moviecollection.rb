@@ -1,9 +1,12 @@
 class MovieCollection
 
+  attr_reader :all_exist_ganres
+
 KEYS = %i[link title year country release genre time rating director actors]
 
   def initialize(file)
       @movies = CSV.read(file, col_sep: '|', write_headers: :true, headers: KEYS).map{ |movie| Movie.new(movie) }
+      @@all_exist_ganres = @movies.map { |movie| movie.send(:genre).split(",") }.flatten.uniq
   end
 
   def all
@@ -26,8 +29,8 @@ KEYS = %i[link title year country release genre time rating director actors]
     @movies.map { |movie| movie.send(param).split(",") }.flatten.sort.group_by(&:itself).map { |key, value| {key => value.size} }.reduce(:merge)
   end
 
-  def has?(genre)
-   @movies.map { |movie| movie.has?(genre) }.include?(true)
+  def self.all_exist_ganres
+    @@all_exist_ganres
   end
 
   def to_s

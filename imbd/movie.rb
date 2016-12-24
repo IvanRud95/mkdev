@@ -11,16 +11,12 @@ class Movie
     if @genre.include?(genre)
       true
     else
-      if MovieCollection.new('movies.txt').has?(genre)
+      if MovieCollection.all_exist_ganres.include?(genre)
         false
       else
         raise
       end
     end
-  end
-
-  def has?(genre)
-    @genre.include?(genre)
   end
 
   def to_s
