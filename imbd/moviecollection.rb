@@ -11,7 +11,7 @@ KEYS = %i[link title year country release genre time rating director actors]
   end
 
   def sort_by(param)
-    @movies.sort_by {|movie| movie.send(param) }.first(3)
+    @movies.sort_by(&param)
   end
 
   def filter(params)
@@ -26,9 +26,8 @@ KEYS = %i[link title year country release genre time rating director actors]
     @movies.map { |movie| movie.send(param).split(",") }.flatten.sort.group_by(&:itself).map { |key, value| {key => value.size} }.reduce(:merge)
   end
 
-  def has_genre?(genre)
-    raise unless @movies.map { |movie| movie.has_genre?(genre) }.include?(true)
-    true
+  def has?(genre)
+   @movies.map { |movie| movie.has?(genre) }.include?(true)
   end
 
   def to_s

@@ -8,7 +8,19 @@ class Movie
   end
 
   def has_genre?(genre)
-      @genre.include?(genre)
+    if @genre.include?(genre)
+      true
+    else
+      if MovieCollection.new('movies.txt').has?(genre)
+        false
+      else
+        raise
+      end
+    end
+  end
+
+  def has?(genre)
+    @genre.include?(genre)
   end
 
   def to_s
