@@ -12,7 +12,7 @@ movie = Movie.new(["http://imdb.com/title/tt0076759/?ref_=chttp_tt_19", "Star Wa
 # #puts movies.all.first.actors
 
 begin
-  puts movie.has_genre?('Action1')
+  puts movie.has_genre?('Comedy1')
 rescue
   puts "Not a ganre"
 end

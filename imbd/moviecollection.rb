@@ -1,7 +1,5 @@
 class MovieCollection
 
-  attr_reader :all_exist_ganres
-
 KEYS = %i[link title year country release genre time rating director actors]
 
   def initialize(file)
