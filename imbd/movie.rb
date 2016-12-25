@@ -2,16 +2,17 @@ class Movie
 
  attr_reader :url, :title, :year, :country, :date, :genre, :length, :rating, :director, :actors
 
-  def initialize(row)
+  def initialize(row, collection = nil)
     @url,@title,@year,@country,@date,@genre,@length,@rating,@director,@actors = row[0..9]
     @length = @length.to_i
+    @collection = collection if not collection.nil?
   end
 
   def has_genre?(genre)
     if @genre.include?(genre)
       true
     else
-      if MovieCollection.all_exist_ganres.include?(genre)
+      if @collection.all_exist_genres.include?(genre)
         false
       else
         raise
