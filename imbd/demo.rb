@@ -7,7 +7,6 @@ collection = MovieCollection.new('movies.txt')
 
 #p collection.all
 #p collection.sort_by(:length)
-p collection.filter(genre: "Action", title: /termi/i, director: "James Cameron", year: 1980..2015)
 #p collection.stats(:genre)
 #p collection.all.first.actors
 
@@ -24,3 +23,7 @@ p collection.filter(genre: "Action", title: /termi/i, director: "James Cameron",
 # rescue GenreNotExist => e
 #   puts e.message
 # end
+
+p collection.filter(director: "James Cameron", year: 1940..1995, genre: "Action", actors: "Arnold Schwarzenegger", title: /ermi/i)
+
+

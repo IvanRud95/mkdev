@@ -4,7 +4,7 @@ KEYS = %i[link title year country release genre time rating director actors]
 
   def initialize(file)
       @movies = CSV.read(file, col_sep: '|', write_headers: :true, headers: KEYS).map{ |movie| Movie.new(movie) }
-      @genre_exstis = @movies.flat_map(&:genre).uniq
+      @genre_exist = @movies.flat_map(&:genre).uniq
   end
 
   def all
@@ -16,28 +16,15 @@ KEYS = %i[link title year country release genre time rating director actors]
   end
 
   def filter(params)
-    movies = @movies.clone
-    params.each_pair do |key, value|
-      case value
-      when Regexp
-        movies.select! { |movie| movie.send(key) =~ value }
-      when Range
-        movies.select! { |movie| value.to_a.include?(movie.send(key)) }
-      when Fixnum
-        movies.select! { |movie| movie.send(key) == value}
-      else
-        movies.select! { |movie| movie.send(key).include?(value) }
-      end
-    end
-    movies
+    @movies.select { |movie| movie.matches?(params) }
   end
 
   def stats(param)
     @movies.flat_map(&param).sort.group_by(&:itself).map { |key, value| {key => value.size} }.reduce(:merge)
   end
 
-  def genre_exstis?(genre)
-    @genre_exstis.include?(genre)
+  def genre_exist?(genre)
+    @genre_exist.include?(genre)
   end
 
   def to_s
