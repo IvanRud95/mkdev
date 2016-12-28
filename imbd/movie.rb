@@ -13,14 +13,17 @@ class Movie
   end
 
   def matches?(params)
-    params.each_pair do |key, value|
-      @result = if self.send(key).is_a?(Array)
-        self.send(key).any? { |v| v == value }
-      else
-        value === self.send(key)
-      end
+    params.reduce(true) do |res, (key, value)|
+      res && movie_matches?(key, value)
     end
-    @result
+  end
+
+  def movie_matches?(key, value)
+    if self.send(key).is_a?(Array)
+     self.send(key).any? { |v| v == value }
+     else
+      value === self.send(key)
+    end
   end
 
   def has_genre?(genre)
@@ -33,4 +36,3 @@ class Movie
   end
 
 end
-
