@@ -14,14 +14,14 @@ class Movie
 
   def matches?(params)
     params.reduce(true) do |res, (key, value)|
-      res && movie_matches?(key, value)
+      res && matches_filter?(key, value)
     end
   end
 
-  def movie_matches?(key, value)
+  def matches_filter?(key, value)
     if self.send(key).is_a?(Array)
-     self.send(key).any? { |v| v == value }
-     else
+      self.send(key).any? { |v| v == value }
+    else
       value === self.send(key)
     end
   end
