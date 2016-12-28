@@ -27,6 +27,8 @@ KEYS = %i[link title year country release genre time rating director actors]
     @genre_exist.include?(genre)
   end
 
+  private
+
   def to_s
     "#{@title} (#{@year}), #{@genre} - #{@director}; #{@actors}"
   end

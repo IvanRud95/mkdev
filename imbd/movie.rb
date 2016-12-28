@@ -18,6 +18,8 @@ class Movie
     end
   end
 
+  private
+
   def matches_filter?(key, value)
     if self.send(key).is_a?(Array)
       self.send(key).any? { |v| v == value }
