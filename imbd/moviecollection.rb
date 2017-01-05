@@ -3,7 +3,7 @@ class MovieCollection
 KEYS = %i[link title year country release genre time rating director actors]
 
   def initialize(file)
-      @movies = CSV.read(file, col_sep: '|', write_headers: :true, headers: KEYS).map{ |movie| Movie.new(movie) }
+      @movies = CSV.read(file, col_sep: '|', write_headers: :true, headers: KEYS).map { |movie| Movie.create(movie) }
       @genre_exist = @movies.flat_map(&:genre).uniq
   end
 
@@ -26,6 +26,7 @@ KEYS = %i[link title year country release genre time rating director actors]
   def genre_exist?(genre)
     @genre_exist.include?(genre)
   end
+
 
   private
 

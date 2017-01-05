@@ -1,16 +1,29 @@
-class GenreNotExist < StandardError
-end
-
 class Movie
 
-  attr_reader :url, :title, :year, :country, :date, :genre, :length, :rating, :director, :actors
+  attr_reader :url, :title, :year, :country, :date, :genre, :duration, :rating, :director, :actors
 
   def initialize(row, collection = nil)
-    @url,@title,@year,@country,@date,@genre,@length,@rating,@director,@actors = row[0..9]
+    @url,@title,@year,@country,@date,@genre,@duration,@rating,@director,@actors = row[0..9]
     @genre, @actors = [@genre, @actors].map { |val| val.split(",") }
-    @length, @year = [@length, @year].map { |val| val.to_i }
+    @duration, @year = [@duration, @year].map { |val| val.to_i }
+    @rating = @rating.to_f
     @collection = collection unless collection.nil?
   end
+
+  def self.create(movie)
+    case movie[2].to_i
+    when 1900...1945
+      AncientMovie.new(movie)
+    when 1945...1968
+      ClassicMovie.new(movie)
+    when 1968...2000
+      ModernMovie.new(movie)
+    else
+      NewMovie.new(movie)
+    end
+  end
+
+  class GenreNotExist < StandardError; end
 
   def matches?(params)
     params.reduce(true) do |res, (key, value)|
@@ -18,11 +31,28 @@ class Movie
     end
   end
 
+  def price
+    case self.class
+    when AncientMovie
+      1
+    when ClassicMovie
+      1.5
+    when ModernMovie
+      3
+    when NewMovie
+      5
+    end
+  end
+
   private
 
   def matches_filter?(key, value)
     if self.send(key).is_a?(Array)
-      self.send(key).any? { |v| v == value }
+      if value.is_a?(Array)
+        self.send(key).select { |v| value.include?(v) }
+      else
+        self.send(key).any? { |v| v == value }
+      end
     else
       value === self.send(key)
     end
