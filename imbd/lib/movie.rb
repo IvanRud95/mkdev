@@ -7,7 +7,7 @@ class Movie
     @genre, @actors = [@genre, @actors].map { |val| val.split(",") }
     @duration, @year = [@duration, @year].map { |val| val.to_i }
     @rating = @rating.to_f
-    @collection = collection unless collection.nil?
+    @collection = collection
   end
 
   def self.create(movie)
@@ -31,25 +31,14 @@ class Movie
     end
   end
 
-  def price
-    case self.class
-    when AncientMovie
-      1
-    when ClassicMovie
-      1.5
-    when ModernMovie
-      3
-    when NewMovie
-      5
-    end
-  end
+  def price; self.price end
 
   private
 
   def matches_filter?(key, value)
     if self.send(key).is_a?(Array)
       if value.is_a?(Array)
-        self.send(key).select { |v| value.include?(v) }
+        self.send(key).any? { |v| value.include?(v) }
       else
         self.send(key).any? { |v| v == value }
       end
