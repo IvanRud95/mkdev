@@ -22,14 +22,20 @@ describe Netflix do
     expect(subject.how_much?("Groundhog Day")).to be_a_kind_of(Numeric)
   end
 
-  # it "When not enough money" do
-  #   subject.pay(1)
-  #   expect(subject.show(title: /ter/i)).to raise_error(Netflix::NotEnoughMoney)
-  # end
+  it "When not enough money" do
+    subject.pay(1)
+    expect{subject.show(title: /ter/i)}.to raise_error(Netflix::NotEnoughMoney)
+  end
 
   it "When enough money" do
     subject.pay(10)
-    expect(subject.show(title: "Groundhog Day")).to include("«Now showing: Groundhog Day»")
+    expect{subject.show(title: "Groundhog Day")}.to output(/^«Now showing: Groundhog Day \d{2}:\d{2}:\d{2} - \d{2}:\d{2}:\d{2}»/i).to_stdout
+    expect(subject.money).to eq(7)
+  end
+
+  it "Film not found" do
+    subject.pay(10)
+    expect{subject.show(title: "Groundhog Days")}.to raise_error(Netflix::FilmNotFound)
   end
 
 end

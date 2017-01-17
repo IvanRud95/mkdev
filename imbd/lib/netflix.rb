@@ -1,14 +1,18 @@
 class Netflix < MovieCollection
 
+  attr_reader :money
+
   def initialize(file)
     super
     @money = 0
   end
 
   class NotEnoughMoney < StandardError; end
+  class FilmNotFound < StandardError; end
 
   def show(params)
 
+    raise FilmNotFound, "Film Not Found" if filter(params) == []
     movie = filter(params).sort_by { |movie| movie.rating * rand }.last
     raise NotEnoughMoney, "Not enough money. This movie cost #{movie.price}. Your balance #{@money}" if @money.nil? || @money < movie.price
 

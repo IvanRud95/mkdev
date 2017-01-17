@@ -12,14 +12,15 @@ require_relative '../lib/newmovie'
 
 describe Theatre do
 
-  subject { described_class.new("../lib/movies.txt") }
+  subject { described_class.new("lib/movies.txt") }
 
   it "Testing show" do
-    expect(subject.show("Morning")).to be_an(NilClass)
+    expect{subject.show("Morning")}.to output(/^«[a-z].*[a-z]\s\d{2}:\d{2}:\d{2} - \d{2}:\d{2}:\d{2}»/i).to_stdout
   end
 
   it "Testing when" do
-    expect(subject.when?('Gone with the Wind')).to be_an(NilClass)
+    expect{subject.when?('Gone with the Wind')}.to output(/^[a-z].*[a-z]/i).to_stdout
   end
 
 end
+

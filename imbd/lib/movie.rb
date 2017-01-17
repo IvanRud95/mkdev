@@ -33,6 +33,7 @@ class Movie
 
   def price; self.price end
 
+
   private
 
   def matches_filter?(key, value)
@@ -53,7 +54,7 @@ class Movie
   end
 
   def to_s
-      "#{@title} (#{@year}), #{@genre} - #{@director}; #{@actors}"
+    "#{@title} (#{@year}), #{@genre} - #{@director}; #{@actors}"
   end
 
 end

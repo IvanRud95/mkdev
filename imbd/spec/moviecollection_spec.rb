@@ -12,7 +12,7 @@ require_relative '../lib/newmovie'
 
 describe MovieCollection do
 
-    subject { described_class.new("../lib/movies.txt") }
+    subject { described_class.new("lib/movies.txt") }
 
     it "All collection" do
       expect(subject.all).to be_an(Array)

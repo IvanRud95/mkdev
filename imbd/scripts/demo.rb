@@ -12,19 +12,19 @@ require_relative '../lib/newmovie'
 # theatre = Theatre.new("lib/movies.txt")
 # theatre.when?("Groundhog Day")
 
-# moviecollection = MovieCollection.new("../lib/movies.txt")
-# p moviecollection.filter(genre: ["Comedy", "Adventure"])
+#moviecollection = MovieCollection.new("lib/movies.txt")
+#p moviecollection.filter(title: "Groundhog Day")
 
 netflix = Netflix.new("lib/movies.txt")
-
-netflix.pay(10)
-begin
-  netflix.show(title: /ter/i)
-rescue Netflix::NotEnoughMoney => e
-  puts e.message
-end
-
+#netflix.pay(10)
+# begin
+#   netflix.show(title: /ter/i)
+# rescue Netflix::NotEnoughMoney => e
+#   puts e.message
+# end
+#p netflix.money
 #netflix.how_much?("Groundhog Day")
+netflix.show(title: "Groundhog Days")
 
 
 
