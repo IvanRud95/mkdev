@@ -23,8 +23,6 @@ class Movie
     end
   end
 
-  class GenreNotExist < StandardError; end
-
   def matches?(params)
     params.reduce(true) do |res, (key, value)|
       res && matches_filter?(key, value)
@@ -34,7 +32,6 @@ class Movie
   def price; self.price end
 
   def has_genre?(genre)
-    raise GenreNotExist, "Genre does not exist" unless @collection.genre_exist?(genre)
     @genre.include?(genre)
   end
 
