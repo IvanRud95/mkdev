@@ -10,12 +10,16 @@ require_relative '../lib/modernmovie'
 require_relative '../lib/newmovie'
 
 # theatre = Theatre.new("lib/movies.txt")
-# theatre.when?("Groundhog Day")
+# p theatre.when?("The Wages of Fear")
 
-#moviecollection = MovieCollection.new("lib/movies.txt")
-#p moviecollection.filter(title: "Groundhog Day")
+# moviecollection = MovieCollection.new("lib/movies.txt")
+# p moviecollection.filter(year: 1940..2000).count
 
-netflix = Netflix.new("lib/movies.txt")
+#p moviecollection.sort_by(:duration).last.duration
+
+#p moviecollection.stats(:actors).first
+
+#netflix = Netflix.new("lib/movies.txt")
 #netflix.pay(10)
 # begin
 #   netflix.show(title: /ter/i)
@@ -24,16 +28,15 @@ netflix = Netflix.new("lib/movies.txt")
 # end
 #p netflix.money
 #netflix.how_much?("Groundhog Day")
-netflix.show(title: "Groundhog Days")
+#netflix.show(title: "Groundhog Days")
 
-
-
-
-#@collection = MovieCollection.new("../lib/movies.txt")
+# @collection = MovieCollection.new("lib/movies.txt")
 # m = ["http://imdb.com/title/tt1130884/?ref_=chttp_tt_192","Shutter Island","2010","USA","2010-02-19","Mystery,Thriller","138 min","8.1","Martin Scorsese","Leonardo DiCaprio,Emily Mortimer,Mark Ruffalo"]
 # am = NewMovie.new(m, @collection)
 # begin
-#   puts movie.has_genre?('Action1')
+#   puts am.has_genre?('Mystery')
 # rescue Movie::GenreNotExist => e
 #   puts e.message
 # end
+
+#p MovieCollection.new("lib/movies.txt").filter(title: "Groundhog Day")

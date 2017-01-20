@@ -33,6 +33,11 @@ class Movie
 
   def price; self.price end
 
+  def has_genre?(genre)
+    raise GenreNotExist, "Genre does not exist" unless @collection.genre_exist?(genre)
+    @genre.include?(genre)
+  end
+
 
   private
 
@@ -46,11 +51,6 @@ class Movie
     else
       value === self.send(key)
     end
-  end
-
-  def has_genre?(genre)
-    raise GenreNotExist, "Genre does not exist" unless @collection.genre_exist?(genre)
-    @genre.include?(genre)
   end
 
   def to_s
