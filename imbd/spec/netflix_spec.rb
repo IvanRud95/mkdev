@@ -39,8 +39,9 @@ describe Netflix do
 
     it "When enough money" do
       subject.pay(10)
-      expect{subject.show(title: "Groundhog Day")}.to output(/^«Now showing: Groundhog Day \d{2}:\d{2}:\d{2} - \d{2}:\d{2}:\d{2}»/i).to_stdout
-      expect(subject.money).to eq(7)
+      expect{subject.show(title: "Groundhog Day")}
+      .to output(/^«Now showing: Groundhog Day \d{2}:\d{2}:\d{2} - \d{2}:\d{2}:\d{2}»/i).to_stdout
+      .and change(subject, :money).by(-3)
     end
 
     it "Film not found" do

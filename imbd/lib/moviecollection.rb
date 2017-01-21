@@ -1,8 +1,9 @@
 class MovieCollection
 
   class GenreNotExist < StandardError; end
+  class ParametrNotExist < StandardError; end
 
-  KEYS = %i[link title year country release genre time rating director actors]
+  KEYS = %i[link title year country date genre duration rating director actors]
 
   def initialize(file)
     @movies = CSV.read(file, col_sep: '|', write_headers: :true, headers: KEYS).map { |movie| Movie.create(movie) }
@@ -18,6 +19,8 @@ class MovieCollection
   end
 
   def filter(params)
+    bad_fields = params.keys.select { |key| !KEYS.include?(key) }
+    raise ParametrNotExist, "Params: #{bad_fields} Not Exist" unless bad_fields.empty?
     @movies.select { |movie| movie.matches?(params) }
   end
 

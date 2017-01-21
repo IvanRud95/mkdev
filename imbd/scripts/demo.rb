@@ -13,11 +13,18 @@ require_relative '../lib/newmovie'
 # p theatre.when?("The Wages of Fear")
 
 # moviecollection = MovieCollection.new("lib/movies.txt")
-# p moviecollection.filter(year: 1940..2000).count
+
+# begin
+#   p moviecollection.filter(director: "James Cameron")
+# rescue MovieCollection::ParametrNotExist => e
+#   puts e.message
+# end
+
+#p moviecollection.filter(director: "James Cameron", director1: "James Cameron")
 
 #p moviecollection.sort_by(:duration).last.duration
 
-#p moviecollection.stats(:actors).first
+#p moviecollection.stats(:duration)
 
 #netflix = Netflix.new("lib/movies.txt")
 #netflix.pay(10)
@@ -33,6 +40,7 @@ require_relative '../lib/newmovie'
 # @collection = MovieCollection.new("lib/movies.txt")
 # m = ["http://imdb.com/title/tt1130884/?ref_=chttp_tt_192","Shutter Island","2010","USA","2010-02-19","Mystery,Thriller","138 min","8.1","Martin Scorsese","Leonardo DiCaprio,Emily Mortimer,Mark Ruffalo"]
 # am = NewMovie.new(m, @collection)
+# am.has_field?('Mystery')
 # begin
 #   puts am.has_genre?('Mystery')
 # rescue Movie::GenreNotExist => e
