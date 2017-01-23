@@ -42,7 +42,8 @@ class MovieCollection
     elsif !KEYS.include?(params)
      params
     end
-    raise ParametrNotExist, "Params: #{bad_fields} not exist" unless bad_fields.nil? || bad_fields.empty?
+    return if bad_fields.nil? || bad_fields.empty?
+    raise ParametrNotExist, "Params: #{bad_fields} not exist"
   end
 
   def to_s

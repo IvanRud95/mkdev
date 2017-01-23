@@ -25,21 +25,11 @@ describe MovieCollection do
         it { expect { subject }.to raise_error(MovieCollection::ParametrNotExist) }
       end
 
-      RSpec::Matchers.define :be_sorted_by do |expected|
-        match do |actual|
-          actual == actual.sort_by(&expected)
-        end
-      end
-
-      shared_examples "sorted" do
-        its(:count) { should eq 250 }
-        it { is_expected.to be_an(Array).and all( be_an(Movie) ) }
-      end
-
       MovieCollection::KEYS.each do |field|
         context "when #{field}" do
           let(:criteria) { field }
-          it_should_behave_like 'sorted'
+          its(:count) { should eq 250 }
+          it { is_expected.to be_an(Array).and all( be_an(Movie) ) }
           it { is_expected.to be_sorted_by(field) }
         end
       end
