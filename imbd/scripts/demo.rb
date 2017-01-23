@@ -14,11 +14,23 @@ require_relative '../lib/newmovie'
 
 moviecollection = MovieCollection.new("lib/movies.txt")
 
-# begin
-#   p moviecollection.filter(director: "James Cameron")
-# rescue MovieCollection::ParametrNotExist => e
-#   puts e.message
-# end
+begin
+  p moviecollection.filter(director: "James Cameron")
+rescue MovieCollection::ParametrNotExist => e
+  puts e.message
+end
+
+begin
+  p moviecollection.sort_by(:director)
+rescue MovieCollection::ParametrNotExist => e
+  puts e.message
+end
+
+begin
+  p moviecollection.stats(:director)
+rescue MovieCollection::ParametrNotExist => e
+  puts e.message
+end
 
 #p moviecollection.filter(director: "James Cameron")
 #.map { |m| m.duration }

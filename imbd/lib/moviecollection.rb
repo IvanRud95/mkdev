@@ -15,16 +15,17 @@ class MovieCollection
   end
 
   def sort_by(param)
+    params_exist?(param)
     @movies.sort_by(&param)
   end
 
   def filter(params)
-    bad_fields = params.keys.select { |key| !KEYS.include?(key) }
-    raise ParametrNotExist, "Params: #{bad_fields} Not Exist" unless bad_fields.empty?
+    params_exist?(params)
     @movies.select { |movie| movie.matches?(params) }
   end
 
   def stats(param)
+    params_exist?(param)
     @movies.flat_map(&param).sort.group_by(&:itself).map { |key, value| {key => value.size} }.reduce(:merge)
   end
 
@@ -34,6 +35,15 @@ class MovieCollection
 
 
   private
+
+  def params_exist?(params)
+    bad_fields = if params.respond_to?(:keys)
+      params.keys.select { |key| !KEYS.include?(key) }
+    elsif !KEYS.include?(params)
+     params
+    end
+    raise ParametrNotExist, "Params: #{bad_fields} not exist" unless bad_fields.nil? || bad_fields.empty?
+  end
 
   def to_s
     "#{@title} (#{@year}), #{@genre} - #{@director}; #{@actors}"

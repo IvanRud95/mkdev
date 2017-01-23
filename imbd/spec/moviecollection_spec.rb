@@ -20,6 +20,11 @@ describe MovieCollection do
 
       subject { collection.sort_by(criteria) }
 
+      context 'when filed not exist' do
+        let(:criteria) { :director1 }
+        it { expect { subject }.to raise_error(MovieCollection::ParametrNotExist) }
+      end
+
       RSpec::Matchers.define :be_sorted_by do |expected|
         match do |actual|
           actual == actual.sort_by(&expected)
@@ -44,6 +49,11 @@ describe MovieCollection do
     describe '#stats' do
 
       subject { collection.stats(criteria) }
+
+      context 'when filed not exist' do
+        let(:criteria) { :director1 }
+        it { expect { subject }.to raise_error(MovieCollection::ParametrNotExist) }
+      end
 
       shared_examples "stats" do
         it { is_expected.to be_an(Hash) }
@@ -111,6 +121,13 @@ describe MovieCollection do
       context 'when actors' do
         let(:criteria) { { actors: "James Cameron" } }
         it { is_expected.to all have_attributes(actors: include("James Cameron")) }
+      end
+
+      context 'when all filters' do
+        let(:criteria) { { actors: "James Cameron", rating: 8.5...9.2, duration: /\d{3}/,
+        genre: "Action", date: 1984, country: 'USA', title: /ermi/i, year: 1940..2000, director: "James Cameron"  } }
+        it { is_expected.to all have_attributes(actors: include("James Cameron"), rating: 8.5...9.2, duration: /\d{3}/,
+          genre: "Action", date: 1984, country: 'USA', title: /ermi/i, year: 1940..2000, director: "James Cameron" ) }
       end
 
     end
