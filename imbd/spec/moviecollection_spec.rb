@@ -1,4 +1,5 @@
 require 'rspec'
+require 'rspec/its'
 require 'csv'
 require 'date'
 require_relative '../lib/moviecollection'
@@ -10,41 +11,32 @@ require_relative '../lib/classicmovie'
 require_relative '../lib/modernmovie'
 require_relative '../lib/newmovie'
 
+
 describe MovieCollection do
 
     subject(:collection) { described_class.new("lib/movies.txt") }
-
-    describe '#all' do
-      subject { collection.all }
-      it { is_expected.to be_an(Array) }
-      it { expect(subject.count).to eq 250 }
-      it { is_expected.to all( be_an(Movie) ) }
-      it { expect(subject.first.actors).to eq(["Tim Robbins", "Morgan Freeman", "Bob Gunton"]) }
-    end
 
     describe '#sort_by' do
 
       subject { collection.sort_by(criteria) }
 
-      context 'when title' do
-        let(:criteria) { :title }
-        it { is_expected.to be_an(Array) }
-        it { expect(subject.count).to eq 250 }
-        it { is_expected.to all( be_an(Movie) ) }
+      RSpec::Matchers.define :be_sorted_by do |expected|
+        match do |actual|
+          actual == actual.sort_by(&expected)
+        end
       end
 
-      context 'when duration' do
-        let(:criteria) { :duration }
-        it { is_expected.to be_an(Array) }
-        it { expect(subject.count).to eq 250 }
-        it { is_expected.to all( be_an(Movie) ) }
+      shared_examples "sorted" do
+        its(:count) { should eq 250 }
+        it { is_expected.to be_an(Array).and all( be_an(Movie) ) }
       end
 
-      context 'when year' do
-        let(:criteria) { :year }
-        it { is_expected.to be_an(Array) }
-        it { expect(subject.count).to eq 250 }
-        it { is_expected.to all( be_an(Movie) ) }
+      MovieCollection::KEYS.each do |field|
+        context "when #{field}" do
+          let(:criteria) { field }
+          it_should_behave_like 'sorted'
+          it { is_expected.to be_sorted_by(field) }
+        end
       end
 
     end
@@ -53,23 +45,16 @@ describe MovieCollection do
 
       subject { collection.stats(criteria) }
 
-      context 'when genre' do
-        let(:criteria) { :genre }
+      shared_examples "stats" do
         it { is_expected.to be_an(Hash) }
-        it { expect(subject.count).to eq 21 }
+        its(:values) { are_expected.to all be_a(Fixnum) }
       end
 
-      context 'when duration' do
-        let(:criteria) { :duration }
-        it { is_expected.to be_an(Hash) }
-        it { expect(subject.count).to eq 99 }
-
-      end
-
-      context 'when actors' do
-        let(:criteria) { :actors }
-        it { is_expected.to be_an(Hash) }
-        it { expect(subject.count).to eq 581 }
+      MovieCollection::KEYS.each do |field|
+        context "when #{field}" do
+          let(:criteria) { field }
+          it_should_behave_like 'stats'
+        end
       end
 
     end
@@ -91,11 +76,6 @@ describe MovieCollection do
       context 'when year' do
         let(:criteria) { { year: 1940..2000 } }
         it { is_expected.to all have_attributes(year: 1940..2000) }
-      end
-
-      context 'when director' do
-        let(:criteria) { { director: "James Cameron" } }
-        it { is_expected.to all have_attributes(director: 'James Cameron') }
       end
 
       context 'when title' do
@@ -124,8 +104,8 @@ describe MovieCollection do
       end
 
       context 'when rating' do
-        let(:criteria) { { rating: /\d{1}.\d{1}/ } }
-        it { is_expected.to all have_attributes(rating: /\d{1}.\d{1}/) }
+        let(:criteria) { { rating: 8.5...9.2 } }
+        it { is_expected.to all have_attributes(rating: 8.5...9.2) }
       end
 
       context 'when actors' do
@@ -137,12 +117,16 @@ describe MovieCollection do
 
     describe '#genre_exist?' do
 
+      subject { collection.genre_exist?(criteria) }
+
       context "when genre exist" do
-        it {expect(subject.genre_exist?('Action')).to be_truthy }
+        let(:criteria) { 'Action' }
+        it { is_expected.to be_truthy }
       end
 
       context "when genre not exist" do
-        it {expect(subject.genre_exist?('Not exist genre')).to be_falsey }
+        let(:criteria) { 'Not exist genre' }
+        it { is_expected.to be_falsey }
       end
 
     end

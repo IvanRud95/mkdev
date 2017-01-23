@@ -12,7 +12,7 @@ require_relative '../lib/newmovie'
 # theatre = Theatre.new("lib/movies.txt")
 # p theatre.when?("The Wages of Fear")
 
-# moviecollection = MovieCollection.new("lib/movies.txt")
+moviecollection = MovieCollection.new("lib/movies.txt")
 
 # begin
 #   p moviecollection.filter(director: "James Cameron")
@@ -20,9 +20,13 @@ require_relative '../lib/newmovie'
 #   puts e.message
 # end
 
-#p moviecollection.filter(director: "James Cameron", director1: "James Cameron")
+#p moviecollection.filter(director: "James Cameron")
+#.map { |m| m.duration }
+#m = moviecollection.sort_by(:duration).map { |m| m.duration }
 
-#p moviecollection.sort_by(:duration).last.duration
+#p moviecollection.filter(rating: 8.9...9.5).map {|m| m.rating}
+
+#p moviecollection.filter(year: 1940...1945)
 
 #p moviecollection.stats(:duration)
 

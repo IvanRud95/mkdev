@@ -3,7 +3,7 @@ class MovieCollection
   class GenreNotExist < StandardError; end
   class ParametrNotExist < StandardError; end
 
-  KEYS = %i[link title year country date genre duration rating director actors]
+  KEYS = %i[url title year country date genre duration rating director actors]
 
   def initialize(file)
     @movies = CSV.read(file, col_sep: '|', write_headers: :true, headers: KEYS).map { |movie| Movie.create(movie) }
