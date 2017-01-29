@@ -1,5 +1,7 @@
 class MovieCollection
 
+  include Enumerable
+
   class GenreNotExist < StandardError; end
   class ParametrNotExist < StandardError; end
 
@@ -8,6 +10,10 @@ class MovieCollection
   def initialize(file)
     @movies = CSV.read(file, col_sep: '|', write_headers: :true, headers: KEYS).map { |movie| Movie.create(movie) }
     @genre_exist = @movies.flat_map(&:genre).uniq
+  end
+
+  def each
+    @movies.each { |m| yield(m) }
   end
 
   def all

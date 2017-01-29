@@ -1,7 +1,7 @@
 class ModernMovie < Movie
 
   def price
-    3
+    Money.new(300, 'USD')
   end
 
   def to_s

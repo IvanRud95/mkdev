@@ -1,38 +1,33 @@
 class Netflix < MovieCollection
 
-  attr_reader :money
-
-  def initialize(file)
-    super
-    @money = 0
-  end
+  extend CashBox
 
   class NotEnoughMoney < StandardError; end
   class FilmNotFound < StandardError; end
   class NegativeAmountMoneys < StandardError; end
 
-  def show(params)
+  def show(param)
 
-    raise FilmNotFound, "Film Not Found" if filter(params).empty?
-    movie = filter(params).sort_by { |movie| movie.rating * rand }.last
-    raise NotEnoughMoney, "Not enough money. This movie cost #{movie.price}. Your balance #{@money}" if @money < movie.price
+    raise FilmNotFound, "Film Not Found" if filter(title: param).empty?
+    movie = filter(title: param).sort_by { |movie| movie.rating * rand }.last
+    raise NotEnoughMoney, "Not enough money. This movie cost #{movie.price.format}. Your balance #{@cash}" if @cash < movie.price
 
     start_time = Time.now
     end_time = start_time + movie.duration * 60
 
-    @money -= movie.price
+    @cash -= movie.price
 
     puts "«Now showing: #{movie.title} #{start_time.strftime("%H:%M:%S")} - #{end_time.strftime("%H:%M:%S")}»"
 
   end
 
-  def pay(money)
-    raise NegativeAmountMoneys, "Negative Amount Moneys" if money < 0
-    @money =+ money
+  def pay(amount)
+    raise NegativeAmountMoneys, "Negative Amount Moneys" if amount < 0
+    self.class.money(amount)
   end
 
   def how_much?(movie_name)
-    filter(title: movie_name).last.price
+    filter(title: movie_name).last.price.format
   end
 
 end

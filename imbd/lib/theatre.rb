@@ -1,5 +1,12 @@
 class Theatre < MovieCollection
 
+  def initialize(file)
+    super
+    @cash = 0
+  end
+
+  include CashBox
+
   class PeriodNotFound < StandardError; end
 
   PERIOD = {
@@ -23,4 +30,20 @@ class Theatre < MovieCollection
     PERIOD.select { |key, value| filter(value).include? movie }.map(&:first)
   end
 
+  def buy_ticket(movie)
+    price = case Time.now.hour
+    when 8...12
+      300
+    when 12...17
+      500
+    when 17...23
+      1000
+    else
+      raise "The cinema closed"
+    end
+    money(price)
+    puts "You bought ticket on #{movie}"
+  end
+
 end
+
