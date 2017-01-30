@@ -1,33 +1,47 @@
-class Netflix < MovieCollection
+module Imbd
 
-  extend CashBox
+  class Netflix < MovieCollection
 
-  class NotEnoughMoney < StandardError; end
-  class FilmNotFound < StandardError; end
-  class NegativeAmountMoneys < StandardError; end
+    def initialize(file)
+      super
+      @balance = Money.new(0, "USD")
+    end
 
-  def show(param)
+    extend CashBox
 
-    raise FilmNotFound, "Film Not Found" if filter(title: param).empty?
-    movie = filter(title: param).sort_by { |movie| movie.rating * rand }.last
-    raise NotEnoughMoney, "Not enough money. This movie cost #{movie.price.format}. Your balance #{@cash}" if @cash < movie.price
+    class NotEnoughMoney < StandardError; end
+    class FilmNotFound < StandardError; end
+    class NegativeAmountMoneys < StandardError; end
 
-    start_time = Time.now
-    end_time = start_time + movie.duration * 60
+    def show(param)
 
-    @cash -= movie.price
+      raise FilmNotFound, "Film Not Found" if filter(title: param).empty?
+      movie = filter(title: param).sort_by { |movie| movie.rating * rand }.last
+      raise NotEnoughMoney, "Not enough money. This movie cost #{movie.price.format}. Your balance #{self.class.count}" if @balance < movie.price
 
-    puts "«Now showing: #{movie.title} #{start_time.strftime("%H:%M:%S")} - #{end_time.strftime("%H:%M:%S")}»"
+      start_time = Time.now
+      end_time = start_time + movie.duration * 60
 
-  end
+      @balance -= movie.price
 
-  def pay(amount)
-    raise NegativeAmountMoneys, "Negative Amount Moneys" if amount < 0
-    self.class.money(amount)
-  end
+      puts "«Now showing: #{movie.title} #{start_time.strftime("%H:%M:%S")} - #{end_time.strftime("%H:%M:%S")}»"
 
-  def how_much?(movie_name)
-    filter(title: movie_name).last.price.format
+    end
+
+    def pay(amount)
+      raise NegativeAmountMoneys, "Negative Amount Moneys" if amount < 0
+      @balance += Money.new(amount*100, "USD")
+      self.class.money(amount)
+    end
+
+    def how_much?(movie_name)
+      filter(title: movie_name).last.price.format
+    end
+
+    def balance
+      @balance.format( symbol: @balance.currency.to_s + ' ')
+    end
+
   end
 
 end

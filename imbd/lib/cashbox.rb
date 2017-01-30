@@ -1,25 +1,35 @@
-module CashBox
+module Imbd
 
-  I18n.enforce_available_locales = false
+  module CashBox
 
-  class Robbery < StandardError; end
+    I18n.enforce_available_locales = false
 
-  def cash
-    @cash.format( symbol: @cash.currency.to_s + ' ')
-  end
+    class Robbery < StandardError; end
 
-  def money(amount)
-    @cash += Money.new(amount, "USD")
-  end
+    @@cash = Money.new(0, "USD")
 
-  def collection
-    @cash = Money.new(0, "USD")
-  end
+    def count
+      @@cash
+    end
 
-  def take(who)
-    raise Robbery, "Called the police" unless who == "Bank"
-    collection
-    puts "Проведена инкассация. Наличных в кассе #{@cash.format}"
+    def cash
+      @@cash.format( symbol: @@cash.currency.to_s + ' ')
+    end
+
+    def money(amount)
+      @@cash += Money.new(amount*100, "USD")
+    end
+
+    def collection
+      @@cash = Money.new(0, "USD")
+    end
+
+    def take(who)
+      raise Robbery, "Called the police" unless who == "Bank"
+      collection
+      puts "Проведена инкассация. Наличных в кассе #{@@cash.format}"
+    end
+
   end
 
 end

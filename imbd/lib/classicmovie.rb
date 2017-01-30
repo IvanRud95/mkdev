@@ -1,15 +1,19 @@
-class ClassicMovie < Movie
+module Imbd
 
-  def price
-    Money.new(150, 'USD')
-  end
+  class ClassicMovie < Movie
 
-  def amount_movies
-    @collection.filter(director: @director).size
-  end
+    def price
+      Money.new(150, 'USD')
+    end
 
-  def to_s
-    "#{@title} — classic movie, director: #{@director} (#{amount_movies} more of his films in the list)"
+    def amount_movies
+      @collection.filter(director: @director).size
+    end
+
+    def to_s
+      "#{@title} — classic movie, director: #{@director} (#{amount_movies} more of his films in the list)"
+    end
+
   end
 
 end

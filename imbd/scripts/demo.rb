@@ -11,9 +11,8 @@ require_relative '../lib/classicmovie'
 require_relative '../lib/modernmovie'
 require_relative '../lib/newmovie'
 
-#Это работает
 
-theatre = Theatre.new("lib/movies.txt")
+theatre = Imbd::Theatre.new("lib/movies.txt")
 theatre.buy_ticket("Terminator")
 theatre.buy_ticket("Terminator 2")
 p theatre.cash
@@ -22,18 +21,43 @@ theatre.buy_ticket("Terminator")
 p theatre.cash
 begin
   theatre.take("Bank1")
-rescue Theatre::Robbery => e
+rescue Imbd::Theatre::Robbery => e
   puts e.message
 end
 
-#Это не работает
+
+netflix = Imbd::Netflix.new("lib/movies.txt")
+p netflix.how_much?("Fight Club")
+p netflix.balance
+netflix.pay(20)
+p netflix.balance
+netflix.show("Fight Club")
+p netflix.balance
+netflix.show("Fight Club")
+p netflix.balance
+
+# p Netflix.cash
+
+# Netflix.take("Bank")
+
+# begin
+#   Netflix.take("Bank1")
+# rescue => e
+#   puts e.message
+# end
+
 
 # netflix = Netflix.new("lib/movies.txt")
-# p netflix.how_much?("Fight Club")
+# p netflix.balance
 # netflix.pay(20)
+# p netflix.balance
 # netflix.show("Fight Club")
-
-
+# p netflix.balance
+# p Netflix.cash
+# netflix.show("Fight Club")
+# p netflix.balance
+# p Netflix.cash
+# p netflix.how_much?("Fight Club")
 
 
 

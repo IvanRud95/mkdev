@@ -1,11 +1,15 @@
-class ModernMovie < Movie
+module Imbd
 
-  def price
-    Money.new(300, 'USD')
-  end
+  class ModernMovie < Movie
 
-  def to_s
-    "#{@title} — modern movie: actors #{@actors.join(', ')}"
+    def price
+      Money.new(300, 'USD')
+    end
+
+    def to_s
+      "#{@title} — modern movie: actors #{@actors.join(', ')}"
+    end
+
   end
 
 end
