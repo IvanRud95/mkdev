@@ -6,28 +6,27 @@ module Imbd
 
     class Robbery < StandardError; end
 
-    @@cash = Money.new(0, "USD")
-
     def count
-      @@cash
+      @cash
     end
 
     def cash
-      @@cash.format( symbol: @@cash.currency.to_s + ' ')
+      @cash.format( symbol: @cash.currency.to_s + ' ')
     end
 
     def money(amount)
-      @@cash += Money.new(amount*100, "USD")
+      @cash ||= Money.new(0, "USD")
+      @cash += Money.new(amount*100, "USD")
     end
 
     def collection
-      @@cash = Money.new(0, "USD")
+      @cash = Money.new(0, "USD")
     end
 
     def take(who)
       raise Robbery, "Called the police" unless who == "Bank"
       collection
-      puts "Проведена инкассация. Наличных в кассе #{@@cash.format}"
+      puts "Проведена инкассация. Наличных в кассе #{@cash.format}"
     end
 
   end

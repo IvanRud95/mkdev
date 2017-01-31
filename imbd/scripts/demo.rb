@@ -12,36 +12,54 @@ require_relative '../lib/modernmovie'
 require_relative '../lib/newmovie'
 
 
-theatre = Imbd::Theatre.new("lib/movies.txt")
-theatre.buy_ticket("Terminator")
-theatre.buy_ticket("Terminator 2")
-p theatre.cash
-theatre.take("Bank")
-theatre.buy_ticket("Terminator")
-p theatre.cash
-begin
-  theatre.take("Bank1")
-rescue Imbd::Theatre::Robbery => e
-  puts e.message
-end
+# theatre = Imbd::Theatre.new("lib/movies.txt")
+# theatre.buy_ticket("Terminator")
+# theatre.buy_ticket("Terminator 2")
+# p theatre.cash
+# theatre.take("Bank")
+# theatre.buy_ticket("Terminator")
+# p theatre.cash
+# begin
+#   theatre.take("Bank1")
+# rescue Imbd::Theatre::Robbery => e
+#   puts e.message
+# end
+
+# p theatre.count
 
 
-netflix = Imbd::Netflix.new("lib/movies.txt")
-p netflix.how_much?("Fight Club")
-p netflix.balance
-netflix.pay(20)
-p netflix.balance
-netflix.show("Fight Club")
-p netflix.balance
-netflix.show("Fight Club")
-p netflix.balance
+# theatre2 = Imbd::Theatre.new("lib/movies.txt")
+# theatre2.buy_ticket("Terminator")
+# theatre2.buy_ticket("Terminator 2")
+# p theatre2.cash
+# theatre2.take("Bank")
+# theatre2.buy_ticket("Terminator")
+# p theatre2.cash
+# begin
+#   theatre2.take("Bank1")
+# rescue Imbd::Theatre::Robbery => e
+#   puts e.message
+# end
 
-# p Netflix.cash
+# p theatre2.count
 
-# Netflix.take("Bank")
+
+# netflix = Imbd::Netflix.new("lib/movies.txt")
+# p netflix.how_much?("Fight Club")
+# p netflix.balance
+# netflix.pay(10)
+# p netflix.balance
+# netflix.show("Fight Club")
+# p netflix.balance
+# netflix.show("Fight Club")
+# p netflix.balance
+
+# p Imbd::Netflix.cash
+
+# Imbd::Netflix.take("Bank")
 
 # begin
-#   Netflix.take("Bank1")
+#   Imbd::Netflix.take("Bank1")
 # rescue => e
 #   puts e.message
 # end

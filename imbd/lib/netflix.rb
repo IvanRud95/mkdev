@@ -17,7 +17,7 @@ module Imbd
 
       raise FilmNotFound, "Film Not Found" if filter(title: param).empty?
       movie = filter(title: param).sort_by { |movie| movie.rating * rand }.last
-      raise NotEnoughMoney, "Not enough money. This movie cost #{movie.price.format}. Your balance #{self.class.count}" if @balance < movie.price
+      raise NotEnoughMoney, "Not enough money. This movie cost #{movie.price.format}. Your balance #{@balance}" if @balance < movie.price
 
       start_time = Time.now
       end_time = start_time + movie.duration * 60
@@ -39,7 +39,7 @@ module Imbd
     end
 
     def balance
-      @balance.format( symbol: @balance.currency.to_s + ' ')
+      @balance.format
     end
 
   end
