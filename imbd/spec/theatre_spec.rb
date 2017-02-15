@@ -18,17 +18,17 @@ describe Imbd::Theatre do
 
   describe '#show' do
     it "Testing show" do
-      expect{subject.show("Morning")}.to output(/^«[a-z].*[a-z]\s\d{2}:\d{2}:\d{2} - \d{2}:\d{2}:\d{2}»/i).to_stdout
+      expect{subject.show(Time.now)}.to output(/^«[a-z].*[a-z]\s\d{2}:\d{2}:\d{2} - \d{2}:\d{2}:\d{2}»/i).to_stdout
     end
     it "Testing not exist period" do
-      expect{subject.show("Night")}.to raise_error(Imbd::Theatre::PeriodNotFound)
+      expect{subject.show(Time.local(2017,"jan",1,5,15,1))}.to raise_error(Imbd::Theatre::PeriodNotFound)
     end
 
   end
 
   describe '#when?' do
     it "Testing when" do
-      expect(subject.when?('Gone with the Wind')).to eq(["Morning", "Evening"])
+      expect(subject.when?('Gone with the Wind')).to eq([8..12, 17..23])
     end
   end
 

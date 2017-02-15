@@ -19,7 +19,7 @@ describe Imbd::Netflix do
   describe '#pay' do
 
     it 'increases Netflix\'s amount of money' do
-      expect { subject.pay(10) }.to change(subject, :balance).from(Money.new(0, "USD").format).to(Money.new(1000, "USD").format)
+      expect { subject.pay(10) }.to change(subject, :balance).from(Money.new(0, "USD")).to(Money.new(1000, "USD"))
     end
 
     it 'fails on negative amounts' do
@@ -43,7 +43,7 @@ describe Imbd::Netflix do
       subject.pay(10)
       expect{subject.show("Groundhog Day")}
       .to output(/^«Now showing: Groundhog Day \d{2}:\d{2}:\d{2} - \d{2}:\d{2}:\d{2}»/i).to_stdout
-      .and change(subject, :balance).from(Money.new(1000, "USD").format).to(Money.new(700, "USD").format)
+      .and change(subject, :balance).by(Money.new(-300, "USD"))
     end
 
     it "Film not found" do

@@ -31,7 +31,7 @@ module Imbd
     def pay(amount)
       raise NegativeAmountMoneys, "Negative Amount Moneys" if amount < 0
       @balance += Money.new(amount*100, "USD")
-      self.class.money(amount)
+      self.class.put_money(amount)
     end
 
     def how_much?(movie_name)
@@ -39,7 +39,7 @@ module Imbd
     end
 
     def balance
-      @balance.format
+      @balance
     end
 
   end
