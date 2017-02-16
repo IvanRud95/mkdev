@@ -1,11 +1,15 @@
-class AncientMovie < Movie
+module Imbd
 
-  def price
-    1
-  end
+  class AncientMovie < Movie
 
-  def to_s
-    "«#{@title} — old movie (#{@year} year)»"
+    def price
+      Money.new(100, 'USD')
+    end
+
+    def to_s
+      "«#{@title} — old movie (#{@year} year)»"
+    end
+
   end
 
 end

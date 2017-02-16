@@ -1,11 +1,15 @@
-class NewMovie < Movie
+module Imbd
 
-  def price
-    5
-  end
+  class NewMovie < Movie
 
-  def to_s
-    "#{@title} — new movie, release #{Time.now.strftime('%Y').to_i - @year } years ago"
+    def price
+      Money.new(500, 'USD')
+    end
+
+    def to_s
+      "#{@title} — new movie, release #{Time.now.strftime('%Y').to_i - @year } years ago"
+    end
+
   end
 
 end
