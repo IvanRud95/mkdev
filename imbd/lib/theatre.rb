@@ -18,6 +18,12 @@ module Imbd
                        PERIODS.keys[2] => 10
                      }
 
+    TIMES_OF_DAY = {
+                       PERIODS.values[0] => "Morning",
+                       PERIODS.values[1] => "Afternoon",
+                       PERIODS.values[2] => "Evening"
+                    }
+
     def show(time)
       raise PeriodNotFound, "Films during the #{time.hour} is not" if PERIODS.detect { |range, filter| range === time.hour }.nil?
       movie = filter(PERIODS.detect { |range, filter| filter }.last).select { |movie| movie.rating * rand }.last
@@ -30,7 +36,7 @@ module Imbd
 
     def when?(movie_name)
       movie = filter(title: movie_name).last
-      PERIODS.select { |key, val| filter(val).include? movie }.map(&:first)
+      TIMES_OF_DAY.select { |key, val| filter(key).include? movie }.map(&:last)
     end
 
     def buy_ticket(movie)

@@ -11,12 +11,31 @@ require_relative '../lib/classicmovie'
 require_relative '../lib/modernmovie'
 require_relative '../lib/newmovie'
 
-p Time.local(2017,"jan",1,5,15,1)
 
-p Time.now
 
-theatre = Imbd::Theatre.new("lib/movies.txt")
-theatre.show(Time.local(2017,"jan",1,5,15,1))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# p Time.local(2017,"jan",1,5,15,1)
+
+# p Time.now
+
+# theatre = Imbd::Theatre.new("lib/movies.txt")
+# theatre.show(Time.local(2017,"jan",1,5,15,1))
 #p theatre.when?("The Avengers")
 #theatre.buy_ticket("Terminator")
 # theatre.buy_ticket("Terminator 2")

@@ -28,7 +28,7 @@ describe Imbd::Theatre do
 
   describe '#when?' do
     it "Testing when" do
-      expect(subject.when?('Gone with the Wind')).to eq([8..12, 17..23])
+      expect(subject.when?('Gone with the Wind')).to eq(["Morning", "Evening"])
     end
   end
 
